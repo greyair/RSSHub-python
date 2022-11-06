@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request
-from rsshub.extensions import cache
+#from rsshub.extensions import cache
 
 bp = Blueprint('main', __name__)
 
@@ -251,7 +251,7 @@ def aisixiang_search(category='', keywords=''):
     return render_template('main/atom.xml', **filter_content(ctx(category, keywords)))
 
 @bp.route('/hacking8/<string:category>/<string:channel>')
-@cache.cached(timeout=1800)
+#@cache.cached(timeout=1800)
 def hacking8_channel(category='', channel=''):
     from rsshub.spiders.hacking8.channel import ctx
     return render_template('main/atom.xml', **filter_content(ctx(category, channel)))

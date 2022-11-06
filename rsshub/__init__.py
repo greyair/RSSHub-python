@@ -39,7 +39,7 @@ def register_extensions(app):
     bootstrap.init_app(app)
     debugtoolbar.init_app(app)
     moment.init_app(app)
-    cache.init_app(app, config={'CACHE_TYPE': 'SimpleCache'})
+    #cache.init_app(app, config={'CACHE_TYPE': 'SimpleCache'})
 
 
 def register_blueprints(app):
