@@ -41,7 +41,7 @@ def gen_headers(cc=''):
     return headers
 
 def parse(post):
-    print(post)
+    #print(post)
     item = {}
     subtitle = post['name'] + '</br></br>' + post['subtitle'] if post.__contains__('subtitle') else post['name']
     item['title'] = post['name']
