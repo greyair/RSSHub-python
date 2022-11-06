@@ -1,14 +1,17 @@
 from rsshub.utils import DEFAULT_HEADERS, fetch
 import requests
+from multiprocessing.dummy import Pool as ThreadPool
+
 
 domain = 'https://i.hacking8.com'
 
 def get_redirect_url(url=''):
-    response = requests.get(url, headers=DEFAULT_HEADERS, allow_redirects=False)
+    #response = requests.get(url, headers=DEFAULT_HEADERS, allow_redirects=False)
+    r = requests.head(url, headers=DEFAULT_HEADERS, stream=True)  
     #print(response.status_code)
     #print(response.url)
     #print(response.text)
-    return response.headers['Location']
+    return r.headers['Location']
 
 def parse(post):
     item = {}
@@ -29,10 +32,18 @@ def ctx(category='', channel=''):
     html = tree.css('tbody')
     posts = tree.css('tbody').css('tr')
     channel_title = html.css('title::text').extract_first()
+
+    pool = ThreadPool(processes=10)
+    items = pool.map(parse, posts)
+    print('map: 堵塞')
+    pool.close()
+    pool.join()
+    print(items)
+
     return {
         'title': f'{channel_title} -  Hacking8',
         'link': r_url,
         'description': f'Hacking8 - {channel_title}',
         'author': 'greyair',
-        'items': list(map(parse, posts))
+        'items': list(items)
     }
